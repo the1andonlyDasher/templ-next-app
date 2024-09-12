@@ -1,0 +1,146 @@
+@use "../media-queries.scss" as *;
+/* base classes */
+
+%flex-full {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%absolute-full {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+%top-left-full {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+%trans {
+  transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  -webkit-transition: 0.5s ease-in-out;
+}
+
+.lr__wrapper {
+  @extend %flex-full;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0 0 2rem 0;
+  @include mq(medium) {
+    flex-direction: row;
+  }
+}
+.lr__wrapper :is(.left-wrapper, .right-wrapper) {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  gap: var(--space-m);
+  @include mq(medium) {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.lr__wrapper .right-wrapper {
+  height: 50%;
+}
+
+.hero__grid {
+  display: grid;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  flex: 1 1 100%;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-areas:
+    "hero bottle news"
+    "hero bottle offers"
+    "hero2 bottle contact"
+    "hero2 bottle contact";
+
+  & > div:nth-child(1) {
+    grid-area: bottle;
+  }
+  & > div:nth-child(2) {
+    grid-area: news;
+    position: relative;
+    perspective: 700px;
+    min-height: 200px;
+    min-width: 200px;
+
+    & > div.swiper_perspective {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      overflow: visible;
+      transform: rotateY(-15deg);
+    }
+  }
+  & > div:nth-child(3) {
+    grid-area: offers;
+    position: relative;
+    perspective: 700px;
+    min-height: 200px;
+    min-width: 200px;
+    & > div.swiper_perspective {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      overflow: visible;
+      transform: rotateY(-15deg);
+    }
+  }
+  & > div:nth-child(4) {
+    grid-area: hero;
+  }
+  & > div:nth-child(5) {
+    grid-area: hero2;
+  }
+  & > div:nth-child(6) {
+    grid-area: contact;
+  }
+}
+
+.hero__grid-cell_bg {
+  @extend %absolute-full;
+  z-index: -1;
+  background-color: rgba(188, 169, 143, 0.14);
+  border-radius: 10px;
+  position: absolute;
+}
+
+.contact_bg {
+  position: absolute;
+  background-position: top;
+  background-size: cover;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  z-index: -1;
+  height: 110%;
+  filter: blur(2px);
+}

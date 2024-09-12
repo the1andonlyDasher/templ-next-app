@@ -1,0 +1,72 @@
+@use "../media-queries.scss" as *;
+
+%flex-full {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+%absolute-full {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+%top-left-full {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%trans {
+  transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  -webkit-transition: 0.5s ease-in-out;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.info__hero {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+  }
+  & > div:nth-child(1) {
+    grid-area: header;
+  }
+  & > div:nth-child(2) {
+    grid-area: img;
+  }
+  & > div:nth-child(3) {
+    grid-area: text;
+  }
+  a {
+    margin-right: auto;
+  }
+}
+
+a svg {
+  width: clamp(0.75rem, 2vw, 1em);
+}

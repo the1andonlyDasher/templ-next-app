@@ -1,0 +1,42 @@
+@use "sass:string";
+
+$base-size: 1rem;
+
+$sizes: (
+  "size-1": $base-size * 0.25,
+  "size-2": $base-size * 0.5,
+  "size-3": $base-size * 0.75,
+  "size-4": $base-size * 1,
+  "size-5": $base-size * 1.25,
+  "size-6": $base-size * 1.5,
+  "size-7": $base-size * 1.75,
+  "size-8": $base-size * 2,
+);
+
+$sides: inline, inline-start, inline-end, block, block-start, block-end;
+
+@each $size-number, $size-value in $sizes {
+  $number: string.slice($size-number, 6);
+
+  .padding {
+    &-#{$number} {
+      padding: $size-value;
+    }
+    @each $side in $sides {
+      &-#{$side}-#{$number} {
+        padding-#{$side}: $size-value;
+      }
+    }
+  }
+
+  .margin {
+    &-#{$number} {
+      margin: $size-value;
+    }
+    @each $side in $sides {
+      &-#{$side}-#{$number} {
+        margin-#{$side}: $size-value;
+      }
+    }
+  }
+}

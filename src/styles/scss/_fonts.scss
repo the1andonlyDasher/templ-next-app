@@ -1,0 +1,40 @@
+// Font file path variables
+$header-font-variable: "/fonts/header-font-variable"; // Single variable font file
+$sub-font-variable: "/fonts/sub-font-variable";
+$text-font-variable: "/fonts/text-font-variable";
+
+// Font family variables
+$fonts: (
+  header: "Montserrat Alternates",
+  sub: "Telex",
+  text: "Didact Gothic",
+);
+
+
+@font-face {
+  font-family: var(fonts-header);
+  src: url("#{$header-font-variable}.woff2") format("woff2"),
+       url("#{$header-font-variable}.ttf") format("truetype");
+  font-weight: 100 900; /* Supports a range of weights from 100 to 900 */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(fonts-sub);
+  src: url("#{$sub-font-variable}.woff2") format("woff2"),
+       url("#{$sub-font-variable}.ttf") format("truetype");
+  font-weight: 100 400; /* Supports a range of weights from 100 to 400 */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(fonts-text);
+  src: url("#{$text-font-variable}.woff2") format("woff2");
+  font-weight: 100 400; 
+  font-style: normal;
+  font-display: swap;
+}
+
+

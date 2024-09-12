@@ -1,0 +1,359 @@
+@use "../media-queries.scss" as *;
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%trans {
+  transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  -webkit-transition: 0.5s ease-in-out;
+}
+
+%absolute-full {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.navbar {
+  @extend %trans;
+  font-size: 1.5rem;
+  color: var(--p-color);
+  width: 100%;
+  height: 100px;
+  margin: 0 auto;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  padding: 1rem 0;
+}
+
+.navbar #image-wrapper-white {
+  @extend %flex-center;
+  height: 100%;
+  padding: 0 1rem;
+  opacity: 1;
+
+  & img {
+    position: relative;
+    width: auto;
+    height: 60%;
+    margin: 0 var(--large);
+  }
+}
+
+.navbar #image-wrapper-blue {
+  @extend %flex-center, %trans;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+
+  & img {
+    position: relative;
+    width: auto;
+    height: 60%;
+  }
+
+  @include mq(medium) {
+    left: 15%;
+  }
+}
+
+.navbar__container {
+  @extend %flex-center;
+  height: 100%;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar__logo {
+  background-color: transparent;
+  padding: 0;
+  height: 70%;
+}
+
+.navbar__logo img {
+  height: 100%;
+  width: 100%;
+  min-height: clamp(3rem, 5vw, 5rem);
+}
+
+.current {
+  transition: ease-in-out 0.3s;
+}
+
+.active {
+  display: flex !important;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+.nav-items,
+.nav-items-instant {
+  display: flex;
+  width: 100%;
+  margin: auto;
+  justify-content: space-evenly;
+  padding: 0;
+  align-items: center;
+  flex-direction: column;
+  list-style-type: none;
+  font-size: clamp(2rem, 7vw, 50px);
+  font-weight: inherit;
+}
+
+:is(.nav-items-instant, .nav-items) .nav-item {
+  position: relative;
+  padding-top: clamp(0.3rem, 3vw, 1rem);
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.nav-items .nav-item:last-of-type {
+  margin-bottom: clamp(0.3rem, 3vw, 1rem);
+}
+
+:is(.nav-items-instant, .nav-items) .nav-item a {
+  @extend %trans;
+  display: flex;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  font-weight: inherit;
+  text-align: center;
+}
+
+.nav-link-secondary {
+  font-size: clamp(1em, 5vw, 1.25em);
+  color: var(--clr-primary-200);
+  text-transform: uppercase;
+}
+
+.nav-items .nav-item a::before {
+  content: attr(data-attribute-text);
+}
+
+.nav-items .nav-item a:hover {
+  color: var(--clr-secondary-100);
+  text-decoration: none;
+}
+
+.nav-items-mobile {
+  @extend %flex-center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  gap: 0.5em;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  list-style-type: none;
+  z-index: -1;
+  background-color: var(--clr-white-main);
+  @include mq(medium) {
+    display: none;
+  }
+}
+
+.visible {
+  z-index: 10;
+}
+
+/* desktop navigation*/
+.nav-items-desktop {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  padding: 0;
+  margin: 0 0 0 auto;
+  right: 0;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  list-style-type: none;
+  left: 0;
+  top: 0;
+
+  @include mq(medium) {
+    position: relative;
+    justify-content: space-evenly;
+    padding: 0;
+    margin: 0 0 0 auto;
+    right: 0;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    list-style-type: none;
+    display: flex;
+  }
+}
+
+:is(.nav-items-desktop, .nav-items-mobile) li {
+  display: flex;
+  align-items: center;
+  margin: 1rem auto;
+  padding-left: 1em;
+  @include mq(medium) {
+    padding-left: 1.5em;
+  }
+
+  @include mq(large) {
+    padding-left: 2em;
+  }
+  // &:first-of-type a{
+  //   padding-left: 0
+  // }
+  // &:last-of-type a{
+  //   padding-right: 0;
+  // }
+}
+
+:is(.nav-items-desktop, .nav-items-mobile) li .nav-link {
+  @extend %trans;
+  background-color: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  color: var(--clr-blue-500);
+  text-decoration: none;
+  font-size: clamp(1rem, 15vw, 2rem);
+  font-weight: 500;
+  font-family: var(--fonts-header);
+  text-transform: uppercase;
+  overflow: hidden;
+  padding: 0.2em;
+
+  &::after {
+    @extend %trans;
+    content: "";
+    width: 100%;
+    position: absolute;
+    height: 3px;
+    border-radius: 1px;
+    background-color: var(--clr-primary-200);
+    left: -100%;
+    bottom: 0;
+  }
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
+
+  &:hover::after,
+  &:active::after {
+    left: 0;
+  }
+
+  @include mq(medium) {
+    font-size: clamp(1rem, 5vw, 1.35rem);
+  }
+}
+
+.white li a {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    color: var(--clr-primary-200);
+    background-color: rgba(14, 22, 36, 0.1);
+  }
+}
+
+.shrunk {
+  background-color: var(--clr-contrast-800);
+}
+
+.instant-nav {
+  position: absolute;
+  background: transparent;
+  opacity: 1;
+  right: 5%;
+  bottom: 5%;
+  transition: ease-in-out 0.2s;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  z-index: 12;
+  @include mq(medium) {
+    display: none;
+  }
+}
+
+.instant-nav .fas {
+  padding: var(--medium);
+  color: var(--b-text);
+  background: var(--cta);
+}
+
+.instant-nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.instant-nav ul li {
+  width: 50%;
+  text-align: center;
+  padding: 0;
+  color: var(--clr-contrast-800);
+  text-shadow: 2px 2px 4px rgb(0 0 0 / 20%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 4px rgb(0 0 0 / 20%);
+}
+
+.instant-nav ul li a {
+  color: var(--clr-contrast-800);
+  width: 100%;
+  height: 100%;
+  padding: 1rem 3rem;
+}
+
+.instant-nav ul li i {
+  font-size: 25px;
+  font-weight: inherit;
+}
+
+.instant-nav ul li span {
+  text-transform: uppercase;
+  font-weight: inherit;
+  margin-top: 0.75rem;
+  font-size: 10px;
+}
+
+//additions to standard css
+
+.instant-nav ul li {
+  background-image: none;
+  background-color: hsl(0, 0%, 1%);
+  color: var(--clr-contrast-100);
+  border-top: 1px solid #161616;
+  font-size: var(--fs-sub-small);
+}
+
+.instant-nav ul li:first-child {
+  border-right: var(--clr-contrast-800) solid 2px;
+}

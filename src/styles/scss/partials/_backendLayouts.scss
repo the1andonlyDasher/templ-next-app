@@ -1,0 +1,113 @@
+@use "../media-queries.scss" as *;
+
+%flex-full {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+%absolute-full {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+%top-left-full {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%trans {
+  transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  -webkit-transition: 0.5s ease-in-out;
+}
+
+.bl1 {
+  grid-template-areas:
+    "Main"
+    "Side"
+    "Footer";
+  width: 100%;
+  height: auto;
+  flex: 1 1 100%;
+  grid-template-columns: 66% 33%;
+  gap: var(--space-l);
+  padding: 1rem 1rem 10% 1rem;
+  @include mq(small) {
+    padding: 1.5rem 1.5rem 10% 1.5rem;
+  }
+  @include mq(medium) {
+    justify-content: center;
+    grid-template-areas:
+      "Main Side"
+      "Footer Footer";
+    padding: 2rem;
+  }
+  @include mq(large) {
+    padding: 1rem 10% 1rem 10%;
+  }
+  @include mq(xl) {
+    padding: 1rem 15% 1rem 15%;
+  }
+  .colPos0 {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: var(--space-l);
+    grid-area: Main;
+  }
+  .colPos1 {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: var(--space-l);
+    grid-area: Footer;
+  }
+  .colPos2 {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: var(--space-l);
+    grid-area: Side;
+    div:first-child .t3Header {
+      background-color: rgb(19, 19, 19);
+      h2 {
+        color: rgb(204, 201, 223);
+        font-weight: 700;
+        font-size: var(--fs-sub-big);
+      }
+    }
+    .t3Header {
+      background-color: rgb(8, 8, 8);
+      border: solid 1px #111;
+      h2 {
+        color: rgb(119, 115, 138);
+        font-weight: 700;
+        font-size: var(--fs-sub-small);
+      }
+      h3 {
+        color: rgb(54, 54, 54);
+        font-weight: 700;
+        font-size: var(--fs-text);
+      }
+      a {
+        padding: var(--space-xs) var(--space-l);
+        font-weight: 600;
+        font-size: var(--fs-text-small);
+      }
+    }
+  }
+}

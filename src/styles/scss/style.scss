@@ -1,0 +1,60 @@
+@use "../scss" as *;
+
+:root {
+  @each $color, $shade in $colors {
+    @each $shade, $value in $shade {
+      --clr-#{$color}-#{$shade}: #{$value};
+    }
+  }
+
+  @each $font, $value in $fonts {
+    --fonts-#{$font}: "#{$value}";
+  }
+
+  @each $screen-size, $font-size in $type-scale {
+    @if $screen-size == xs {
+      @each $size, $value in $font-size {
+        --fs-#{$size}: #{$value};
+      }
+    } @else if $screen-size == small {
+      @include mq(small) {
+        @each $size, $value in $font-size {
+          --fs-#{$size}: #{$value};
+        }
+      }
+    } @else if $screen-size == medium {
+      @include mq(medium) {
+        @each $size, $value in $font-size {
+          --fs-#{$size}: #{$value};
+        }
+      }
+    } @else {
+      @include mq(large) {
+        @each $size, $value in $font-size {
+          --fs-#{$size}: #{$value};
+        }
+      }
+    }
+  }
+
+  // screen sizes and spaces
+  @each $screen-size, $size in $spaces {
+    @if $screen-size == small {
+      @each $size, $value in $size {
+        --space-#{$size}: #{$value};
+      }
+    } @else if $screen-size == medium {
+      @include mq(medium) {
+        @each $size, $value in $size {
+          --space-#{$size}: #{$value};
+        }
+      }
+    } @else {
+      @include mq(large) {
+        @each $size, $value in $size {
+          --space-#{$size}: #{$value};
+        }
+      }
+    }
+  }
+}

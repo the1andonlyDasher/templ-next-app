@@ -1,0 +1,20 @@
+$spaces: (
+  small: (
+    xs: clamp(0.125em, 10vw, 0.2em),
+    s: clamp(0.25em, calc(5vw + 0.25em), 0.5em),
+    m: clamp(0.5em, calc(5vw + 0.35em), 0.75em),
+    l: clamp(0.75em, calc(5vw + 0.5em), 1em),
+  ),
+  medium: (
+    xs: clamp(0.155em, 5vw, 0.375em),
+    s: clamp(0.45em, calc(5vw + 0.25em), 0.55em),
+    m: clamp(0.65em, calc(5vw + 0.35em), 0.85em),
+    l: clamp(1em, calc(5vw + 0.5em), 1.25em),
+  ),
+  large: (
+    xs: clamp(0.25em, 5vw, 0.5em),
+    s: clamp(0.75em, calc(5vw + 0.25em), 1em),
+    m: clamp(1em, calc(5vw + 0.35em), 1.2em),
+    l: clamp(1.2em, calc(5vw + 0.5em), 1.5em),
+  ),
+);
