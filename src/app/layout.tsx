@@ -1,24 +1,21 @@
-
-
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "../styles/scss/style.scss"
 import { useRef } from "react";
 import { LayoutTransition } from "./components/LayoutTransition";
-import {Roboto_Mono, Roboto} from "next/font/google"
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Roboto_Mono, Roboto } from "next/font/google"
+import QueryProvider from "./components/CustomQueryProvider";
 
-const queryClient = new QueryClient();
 
 const roboto = Roboto({
-  weight:["500", "700", "900"],
-  subsets:["latin"]
+  weight: ["500", "700", "900"],
+  subsets: ["latin"]
 })
 
 const roboto_mono = Roboto_Mono({
-  weight:["400", "500", "600"],
-  subsets:["latin"]
+  weight: ["400", "500", "600"],
+  subsets: ["latin"]
 })
 
 export const metadata: Metadata = {
@@ -37,16 +34,16 @@ export default function RootLayout({
       <body
         className={`${roboto.style} ${roboto_mono.style} antialiased`}
       >
-        <QueryClientProvider client={queryClient}>
-        <LayoutTransition
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="content-grid"
-        >
-          {children}
-        </LayoutTransition>
-        </QueryClientProvider>
+        <QueryProvider>
+          <LayoutTransition
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="content-grid"
+          >
+            {children}
+          </LayoutTransition>
+        </QueryProvider>
       </body>
     </html>
   );

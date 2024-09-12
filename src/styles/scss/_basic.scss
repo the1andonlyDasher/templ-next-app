@@ -46,8 +46,6 @@ $ff-text: var(--fonts-text);
   box-sizing: border-box;
 }
 
-
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 // body::-webkit-scrollbar {
 // display: none !important;
@@ -80,7 +78,6 @@ body {
 
 body {
   font-family: sans-serif;
-
 }
 
 html {
@@ -126,7 +123,6 @@ h2,
 h3,
 h4,
 h5 {
-
   text-align: left;
   // margin: 0.1em auto;
   width: 100%;
@@ -269,9 +265,9 @@ a {
 }
 
 .btn__outline {
-  background-color: rgb(172, 255, 248);
-  color: var(--clr-blue-main);
-
+  background-color: #ffffff;
+  color: black;
+  border: 1px black solid;
   position: relative;
   &::before {
     z-index: -2;
