@@ -25,7 +25,7 @@ const image_variants = {
 
 const Navbar = ({ logo, alt, navbar, legals }: any) => {
   const router = useRouter()
-  const navbarMain = useRef<any>(!null);
+  const navbarMain = useRef<any>(null);
   const [isOpen, toggleOpen] = useCycle(false, true);
   const supabase = createClientComponentClient();
   const [session, setSession]: any = useState({});
