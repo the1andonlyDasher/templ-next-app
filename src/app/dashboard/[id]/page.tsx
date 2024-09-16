@@ -6,7 +6,7 @@ import { getCookie } from 'cookies-next'; // For accessing cookies on the client
 import { useEffect, useState } from 'react';
 
 async function fetchUser(id: number, token: string) {
-    const response = await fetch(`/api/user/${id}`, {
+    const response = await fetch(`/api/users/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

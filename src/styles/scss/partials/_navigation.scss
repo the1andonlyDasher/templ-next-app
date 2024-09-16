@@ -133,6 +133,7 @@ a {
   height: 100%;
   font-weight: inherit;
   text-align: center;
+  font-family: sans-serif;
 }
 
 .nav-link-secondary {
@@ -233,8 +234,9 @@ a {
   color: var(--clr-blue-500);
   text-decoration: none;
   font-size: clamp(1rem, 15vw, 2rem);
-  font-weight: 500;
-  font-family: var(--fonts-header);
+  font-weight: 600;
+  font-family: sans-serif;
+
   text-transform: uppercase;
   overflow: hidden;
   padding: 0.2em;
@@ -262,7 +264,7 @@ a {
   }
 
   @include mq(medium) {
-    font-size: clamp(1rem, 5vw, 1.35rem);
+    font-size: clamp(1rem, 5vw, 1.25rem);
   }
 }
 

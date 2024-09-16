@@ -1,7 +1,9 @@
-import { GradientTexture, Grid, OrbitControls, useFBX } from "@react-three/drei";
+import { Environment, GradientTexture, Grid, OrbitControls, SoftShadows, useFBX } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { forwardRef, useEffect, useState } from "react";
 import { MathUtils } from "three/src/math/MathUtils.js";
+import { Model } from "./House";
+import { Haus } from "./Haus";
 
 
 interface glProps {
@@ -53,7 +55,6 @@ const GL = (props: glProps) => {
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[200, 200, 200]} />
           <meshStandardMaterial color={"#ffffff"} />
-          <OrbitControls />
           <CameraController />
         </mesh>
         <GradientTexture
@@ -63,13 +64,15 @@ const GL = (props: glProps) => {
           size={1024}
         />
         <ambientLight intensity={1.5} color="#ffffff" />
+        <Environment preset="studio" background={false} />
+        <Haus rotation={[0, -Math.PI / 2, 0]} scale={0.25} position={[-3, 0, 23]} />
         <Grid
           args={[100, 100]}
           position={[0, 0.1, 0]}
           fadeDistance={10}
           sectionColor={"#f3f3f3"}
           cellColor={"#111111"} />
-        <directionalLight intensity={5.5} color={"#f0e6cb"} />
+        <directionalLight intensity={1.5} color={"#f0e6cb"} />
       </Canvas>
     </div>
   );

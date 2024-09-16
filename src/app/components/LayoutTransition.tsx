@@ -6,6 +6,8 @@ import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.sha
 
 import { useContext, useEffect, useRef } from "react";
 import WebGL from "@/ts/GL";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+import Navbar from "./Navbar/navbar";
 
 function usePreviousValue<T>(value: T): T | undefined {
   const prevValue = useRef<T>();
@@ -48,6 +50,16 @@ interface LayoutTransitionProps {
   exit: React.ComponentProps<typeof motion.div>["exit"];
 }
 
+const names = [
+  ["Home", null, false],
+  ["Kontakt", faCalendar, false]
+]
+
+const legals = [
+  "Datenschutz",
+  "Impressum"
+]
+
 export function LayoutTransition({
   children,
   className,
@@ -58,8 +70,11 @@ export function LayoutTransition({
 }: LayoutTransitionProps) {
   const segment = useSelectedLayoutSegment();
   const ref = useRef(null)
-  return (
+  return (<>
+    <Navbar navbar={names} legals={legals} />
+
     <div ref={ref} className="main w-screen h-screen">
+
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           className={className}
@@ -74,5 +89,6 @@ export function LayoutTransition({
       </AnimatePresence>
       <WebGL eventSource={ref} />
     </div>
+  </>
   );
 }

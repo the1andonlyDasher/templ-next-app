@@ -41,6 +41,17 @@
   justify-content: center;
   align-items: center;
 }
+%flex {
+  display: flex;
+}
+
+%col {
+  flex-direction: column;
+}
+
+%row {
+  flex-direction: row;
+}
 
 /* base classes */
 
@@ -71,19 +82,20 @@
 }
 
 .form-container {
-  max-width: 400px;
+  @extend %flex, %col;
+  align-items: flex-start;
   width: 100%;
   padding: 0;
   background-color: transparent;
-  color: var(--clr-contrast-100);
   border-radius: 2px;
 }
 
 .form-wrapper {
   @extend %flex-center;
-  gap:2rem;
+  gap: 2rem;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 .form-group {
@@ -97,8 +109,8 @@
 
 form {
   @extend %flex-center;
+  gap: 1rem;
   margin: 0 auto 0 0;
-  gap:2rem;
   padding: 1rem 0;
   flex-direction: column;
   width: 100%;
@@ -108,30 +120,30 @@ form {
 }
 
 form div {
+  position: relative;
   margin: 1rem auto;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-form :is(#name, #email) {
-  max-width: 500px;
-}
-
-fieldset {
-  margin: 1rem auto;
-  padding: 1rem;
-  width: 50%;
-  border-radius: 2px;
-  border: none;
-  background-color: transparent;
-}
-
-legend {
-  padding: 0.5rem;
+// Beudeutet, dass solange der user am tippen ist, orange angezeigt wird, sobald ein Wert erreicht wird,
+// der valide ist wechselt die border color zu green, ansonsten wird red angezeigt
+form :is(#email, #name, #password) {
+  max-width: 350px;
+  &:not(:placeholder-shown):valid {
+    border-color: rgb(0, 184, 31);
+  }
+  &:not(:placeholder-shown):invalid {
+    border-color: rgb(255, 0, 0);
+  }
+  &:focus:invalid {
+    border-color: rgb(255, 153, 0);
+  }
 }
 
 form :is(label, select, input, textarea, .input) {
+  font-family: sans-serif;
   position: relative;
   line-height: 1.5;
   text-align: left;
@@ -144,11 +156,18 @@ form .input {
 }
 
 form label {
+  @extend %flex, %col;
+  align-items: flex-start;
   padding-bottom: var(--space-xs);
-  font-size: clamp(0.75rem, 10vw, 1.35rem);
-  color: var(--clr-contrast-100);
+  font-size: clamp(0.75rem, 10vw, 1.05rem);
+  color: var(--clr-contrast-700);
   font-weight: 600;
-  font-family: var(--fonts-text);
+  font-family: sans-serif;
+  width: 100%;
+  &[aria-label="password"],
+  &[aria-label="email"] {
+    max-width: 300px;
+  }
 }
 
 form :is(input, select, textarea) {
@@ -182,7 +201,6 @@ form a {
 }
 
 form button {
-  margin-top: 1rem;
   outline: none;
   border-radius: 2px;
   width: 100%;
