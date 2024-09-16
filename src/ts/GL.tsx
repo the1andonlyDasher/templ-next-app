@@ -1,8 +1,7 @@
-import { Environment, GradientTexture, Grid, OrbitControls, SoftShadows, useFBX } from "@react-three/drei";
+import { Environment, GradientTexture, Grid } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { forwardRef, useEffect, useState } from "react";
 import { MathUtils } from "three/src/math/MathUtils.js";
-import { Model } from "./House";
 import { Haus } from "./Haus";
 
 
