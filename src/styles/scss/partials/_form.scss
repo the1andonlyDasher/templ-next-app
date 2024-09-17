@@ -88,6 +88,14 @@
   padding: 0;
   background-color: transparent;
   border-radius: 2px;
+  &button {
+    @include mq(medium) {
+      margin-right: auto;
+    }
+  }
+  &.login {
+    align-items: center;
+  }
 }
 
 .form-wrapper {
@@ -149,6 +157,7 @@ form :is(label, select, input, textarea, .input) {
   text-align: left;
   outline: none;
   margin: 0;
+  width: 100%;
 }
 
 form .input {
@@ -205,9 +214,6 @@ form button {
   border-radius: 2px;
   width: 100%;
   max-width: 300px;
-  @include mq(medium) {
-    margin-right: auto;
-  }
 }
 
 form .btn-group .btn-group:nth-child(n + 2) {

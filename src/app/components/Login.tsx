@@ -41,9 +41,9 @@ export default function Login() {
 
     return (
         <>
-            <div className="form-wrapper">
+            <div className="form-wrapper max-w-[400px] mx-auto">
                 {errorMessage && <p className="bg-red-700 p-4">{errorMessage}</p>}
-                <form className="form-container">
+                <form className="form-container login">
                     <label aria-label="email">
                         Email
                         <input

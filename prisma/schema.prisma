@@ -6,17 +6,18 @@
 
 
 
-generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
-  schemas = ["public", "auth"]
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+  schemas           = ["public", "auth"]
 }
 
-datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
+
         
 
 model User {
@@ -25,5 +26,6 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+    @@schema("auth") 
 }
 
