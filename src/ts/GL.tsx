@@ -3,7 +3,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { forwardRef, useEffect, useState } from "react";
 import { MathUtils } from "three/src/math/MathUtils.js";
 import { Haus } from "./Haus";
-import { Bloom, DepthOfField, EffectComposer, Noise, SSAO, Vignette } from '@react-three/postprocessing'
 
 
 interface glProps {
@@ -51,31 +50,28 @@ const GL = (props: glProps) => {
         eventSource={props.eventSource}
         eventPrefix="client"
       >
-        <EffectComposer>
-          <SSAO worldDistanceThreshold={0} worldDistanceFalloff={0} worldProximityThreshold={0} worldProximityFalloff={0} />
-          <fog attach="fog" args={["#ffffff", 3, 10]}></fog>
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[200, 200, 200]} />
-            <meshStandardMaterial color={"#ffffff"} />
-            <CameraController />
-          </mesh>
-          <GradientTexture
-            stops={[0, 1]}
-            colors={["#ffffff", "#fefefe"]}
-            attach="background"
-            size={1024}
-          />
-          <ambientLight intensity={1.5} color="#ffffff" />
-          <Environment preset="studio" background={false} />
-          <Haus rotation={[0, -Math.PI / 2, 0]} scale={0.25} position={[-3, 0, 23]} />
-          <Grid
-            args={[100, 100]}
-            position={[0, 0.1, 0]}
-            fadeDistance={10}
-            sectionColor={"#f3f3f3"}
-            cellColor={"#111111"} />
-          <directionalLight intensity={1.5} color={"#f0e6cb"} />
-        </EffectComposer>
+        <fog attach="fog" args={["#ffffff", 3, 10]}></fog>
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[200, 200, 200]} />
+          <meshStandardMaterial color={"#ffffff"} />
+          <CameraController />
+        </mesh>
+        <GradientTexture
+          stops={[0, 1]}
+          colors={["#ffffff", "#fefefe"]}
+          attach="background"
+          size={1024}
+        />
+        <ambientLight intensity={1.5} color="#ffffff" />
+        <Environment preset="studio" background={false} />
+        <Haus rotation={[0, -Math.PI / 2, 0]} scale={0.25} position={[-3, 0, 23]} />
+        <Grid
+          args={[100, 100]}
+          position={[0, 0.1, 0]}
+          fadeDistance={10}
+          sectionColor={"#f3f3f3"}
+          cellColor={"#111111"} />
+        <directionalLight intensity={1.5} color={"#f0e6cb"} />
       </Canvas>
     </div>
   );
