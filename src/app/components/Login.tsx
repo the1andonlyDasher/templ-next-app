@@ -4,40 +4,15 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { login, signup } from "../login/actions";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const router = useRouter();
-    const supabase = createClientComponentClient();
 
-    const handleSignUp = async () => {
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${location.origin}/auth/callback`,
-            },
-        });
-        if (error) {
-            setErrorMessage(error.message);
-        } else {
-            router.refresh();
-        }
-    };
 
-    const handleSignIn = async () => {
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-        if (error) {
-            setErrorMessage(error.message);
-        } else {
-            router.refresh();
-        }
-    };
+
 
     return (
         <>
@@ -72,16 +47,16 @@ export default function Login() {
 
                     <button
                         className="btn__outline"
-                        type="button"
-                        onClick={handleSignIn}
+                        type="submit"
+                        formAction={login}
                     >
                         Login
                     </button>
                     <p className="text-black text-sm font-bold">oder</p>
                     <button
                         className="btn__alt"
-                        type="button"
-                        onClick={handleSignUp}
+                        type="submit"
+                        formAction={signup}
                     >
                         Registrieren
                     </button>

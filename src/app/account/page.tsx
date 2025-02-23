@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../utils/supabase/server'
+import AccountForm from '../components/user/AccountForm'
 
 
 
@@ -11,5 +12,5 @@ export default async function PrivatePage() {
         redirect('/login')
     }
 
-    return <p>Hello {data.user.email}</p>
+    return <AccountForm user={data.user} />
 }

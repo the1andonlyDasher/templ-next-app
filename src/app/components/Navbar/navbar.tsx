@@ -5,13 +5,14 @@ import Image from "next/image";
 import { motion, useCycle } from "framer-motion";
 import NavbarToggle from "./NavbarToggle";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import MobileNav from "./MobileNav";
 import Navigation from "./Navigation";
 import { NavItem } from "./NavItemDesktop";
 import { NavItem as Mnav } from "./NavItemMobile";
 import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { createClient } from "@/app/utils/supabase/client";
 const variants = {
   closed: {},
   open: {}
@@ -25,10 +26,11 @@ const image_variants = {
 
 const Navbar = ({ logo, alt, navbar, legals }: any) => {
   const router = useRouter()
+  const pathname = usePathname()
   const navbarMain = useRef<any>(null);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const supabase = createClientComponentClient();
-  const [session, setSession]: any = useState({});
+  const supabase = createClient();
+  const [session, setSession]: any = useState(null);
 
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     // console.log(event, session)
@@ -53,8 +55,11 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) { setSession(user) } else { setSession(null) }
+      console.log(user, session)
     };
 
     getSession();
@@ -64,8 +69,24 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
 
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
+    //setLoading(true); // Optionally show a loading state
+
+    try {
+      const response = await fetch('/auth/signout', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        // If the logout was successful, navigate to the login page
+        router.push('/login');
+      } else {
+        console.error('Failed to logout');
+      }
+    } catch (error) {
+      console.error('An error occurred during logout:', error);
+    } finally {
+      //setLoading(false); // Stop loading state
+    }
   };
 
   return (
@@ -95,15 +116,14 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
           </Link>
         </motion.div>
         <Navigation>
-          {session.session?.user && <NavItem href={`/dashboard/${session.session?.user.id}`} />}
           {navbar.map((i: any, index: number) => (
             <NavItem icon={i[1]} clickLink={null} key={i[0]} name={i[0]} href={index === 0 ? "/" : `/${i[2] === true ? "#" : ""}${i[0].toLowerCase()}`} />
           ))}
 
 
         </Navigation>
-        {!session.session?.user && <Link className="btn__alt ml-10" href="/login">Login</Link>}
-        {session.session?.user &&
+        {session === null && pathname !== "/login" && <Link className="btn__alt ml-10" href="/login">Login</Link>}
+        {session !== null &&
           <button className="btn__alt ml-10"
             onClick={handleSignOut}>Logout</button>}
         <MobileNav>
@@ -113,9 +133,7 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
           {legals.map((i: any, index: number) => (
             <Mnav secondary toggle={() => toggleOpen()} key={i} name={i} href={`${i.toLowerCase()}`} />
           ))}
-          {session.session?.user &&
-            <button className="btn__alt"
-              onClick={handleSignOut}>Logout</button>}
+
         </MobileNav>
         <NavbarToggle toggle={() => toggleOpen()} />
       </div>
