@@ -10,9 +10,11 @@ import MobileNav from "./MobileNav";
 import Navigation from "./Navigation";
 import { NavItem } from "./NavItemDesktop";
 import { NavItem as Mnav } from "./NavItemMobile";
-import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient, createServerComponentClient, User } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { createClient } from "@/app/utils/supabase/client";
+import { useUserSession } from "@/app/hooks/useUserSession";
+import { useQueryClient } from "@tanstack/react-query";
 const variants = {
   closed: {},
   open: {}
@@ -30,8 +32,9 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
   const navbarMain = useRef<any>(null);
   const [isOpen, toggleOpen] = useCycle(false, true);
   const supabase = createClient();
-  const [session, setSession]: any = useState(null);
+  const queryClient = useQueryClient()
 
+  const { data: session, isLoading, error } = useUserSession()
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     // console.log(event, session)
 
@@ -53,24 +56,11 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
 
 
 
-  useEffect(() => {
-    const getSession = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) { setSession(user) } else { setSession(null) }
-      console.log(user, session)
-    };
 
-    getSession();
-    return () =>  // call unsubscribe to remove the callback
-      data.subscription.unsubscribe()
-  }, [data]);
 
 
   const handleSignOut = async () => {
     //setLoading(true); // Optionally show a loading state
-
     try {
       const response = await fetch('/auth/signout', {
         method: 'POST',
@@ -79,6 +69,7 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
       if (response.ok) {
         // If the logout was successful, navigate to the login page
         router.push('/login');
+        queryClient.invalidateQueries({ queryKey: ["user-session"] });
       } else {
         console.error('Failed to logout');
       }

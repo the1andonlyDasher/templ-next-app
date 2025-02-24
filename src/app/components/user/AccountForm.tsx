@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import { createClient } from '../../utils/supabase/client'
+import { createClient } from '@/app/utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
 
 export default function AccountForm({ user }: { user: User | null }) {
@@ -13,31 +13,40 @@ export default function AccountForm({ user }: { user: User | null }) {
 
     const getProfile = useCallback(async () => {
         try {
-            setLoading(true)
+            setLoading(true);
 
-            const { data, error, status } = await supabase
-                .from('profiles')
-                .select(`full_name, username, website, avatar_url`)
-                .eq('id', user?.id)
-                .single()
-
-            if (error && status !== 406) {
-                console.log(error)
-                throw error
+            const { data: userData, error: userError } = await supabase.auth.getUser();
+            if (userError || !userData?.user) {
+                throw new Error("User not authenticated");
             }
 
-            if (data) {
-                setFullname(data.full_name)
-                setUsername(data.username)
-                setWebsite(data.website)
-                setAvatarUrl(data.avatar_url)
+
+            const { data: profile, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userData.user.id) // Ensure correct ID format
+                .single();
+
+            if (error) {
+                console.error("Profile fetch error:", error);
+                throw error;
+            }
+
+            if (profile) {
+                setFullname(profile.full_name);
+                setUsername(profile.username);
+                setWebsite(profile.website);
+                setAvatarUrl(profile.avatar_url);
             }
         } catch (error) {
-            alert('Error loading user data!')
+            console.error("Error fetching profile:", error);
+            alert("Error loading user data!");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }, [user, supabase])
+    }, [supabase]);
+
+
 
     useEffect(() => {
         getProfile()
@@ -74,32 +83,33 @@ export default function AccountForm({ user }: { user: User | null }) {
     }
 
     return (
-        <div className="form-widget">
-            <div>
+        <div className="flex max-w-min flex-col border-black gap-6 border backdrop-blur-md rounded-xl p-10">
+            <div className="flex flex-wrap gap-10">
                 <label htmlFor="email">Email</label>
-                <input id="email" type="text" value={user?.email} disabled />
+                <input className='bg-black p-2 rounded-sm text-white' id="email" type="text" value={user?.email} disabled />
             </div>
-            <div>
+            <div className="flex flex-wrap gap-10">
                 <label htmlFor="fullName">Full Name</label>
-                <input
+                <input className='bg-black p-2 rounded-sm text-white'
                     id="fullName"
                     type="text"
                     value={fullname || ''}
                     onChange={(e) => setFullname(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="flex flex-wrap gap-10">
                 <label htmlFor="username">Username</label>
-                <input
+                <input className='bg-black p-2 rounded-sm text-white'
                     id="username"
                     type="text"
                     value={username || ''}
                     onChange={(e) => setUsername(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="flex flex-wrap gap-10">
                 <label htmlFor="website">Website</label>
                 <input
+                    className='bg-black p-2 rounded-sm text-white'
                     id="website"
                     type="url"
                     value={website || ''}
@@ -107,7 +117,7 @@ export default function AccountForm({ user }: { user: User | null }) {
                 />
             </div>
 
-            <div>
+            <div className="flex flex-wrap gap-10">
                 <button
                     className="button primary block"
                     onClick={() => updateProfile({ fullname, username, website, avatar_url })}
@@ -117,7 +127,7 @@ export default function AccountForm({ user }: { user: User | null }) {
                 </button>
             </div>
 
-            <div>
+            <div className="flex flex-wrap gap-10">
                 <form action="/auth/signout" method="post">
                     <button className="button block" type="submit">
                         Sign out
