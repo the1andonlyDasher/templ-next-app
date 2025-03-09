@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { createClient } from "../utils/supabase/client";
+import { createClient } from "../app/utils/supabase/client";
 
 export const insertMesocycle = async ({
   mesoName,

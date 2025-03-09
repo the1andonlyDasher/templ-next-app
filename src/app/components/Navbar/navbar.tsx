@@ -13,7 +13,7 @@ import { NavItem as Mnav } from "./NavItemMobile";
 import { createClientComponentClient, createServerComponentClient, User } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { createClient } from "@/app/utils/supabase/client";
-import { useUserSession } from "@/app/hooks/useUserSession";
+import { useUserSession } from "@/hooks/useUserSession";
 import { useQueryClient } from "@tanstack/react-query";
 const variants = {
   closed: {},
@@ -52,12 +52,6 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
       // handle user updated event
     }
   })
-
-
-
-
-
-
 
   const handleSignOut = async () => {
     //setLoading(true); // Optionally show a loading state
@@ -101,22 +95,17 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
 
           >
             LOGO
-
-
-
           </Link>
         </motion.div>
         <Navigation>
           {navbar.map((i: any, index: number) => (
             <NavItem icon={i[1]} clickLink={null} key={i[0]} name={i[0]} href={index === 0 ? "/" : `/${i[2] === true ? "#" : ""}${i[0].toLowerCase()}`} />
           ))}
-
-
         </Navigation>
-        {session === null && pathname !== "/login" && <Link className="btn__alt ml-10" href="/login">Login</Link>}
-        {session !== null &&
+        {!session && pathname !== "/login" ? <Link className="btn__alt ml-10" href="/login">Login</Link> : null}
+        {session ?
           <button className="btn__alt ml-10"
-            onClick={handleSignOut}>Logout</button>}
+            onClick={handleSignOut}>Logout</button> : null}
         <MobileNav>
           {navbar.map((i: any, index: number) => (
             <Mnav toggle={() => toggleOpen()} icon={i[1]} clickLink={null} key={i[0]} name={i[0]} href={index === 0 ? "/" : `/${i[2] === true ? "#" : ""}${i[0].toLowerCase()}`} />
@@ -124,7 +113,6 @@ const Navbar = ({ logo, alt, navbar, legals }: any) => {
           {legals.map((i: any, index: number) => (
             <Mnav secondary toggle={() => toggleOpen()} key={i} name={i} href={`${i.toLowerCase()}`} />
           ))}
-
         </MobileNav>
         <NavbarToggle toggle={() => toggleOpen()} />
       </div>

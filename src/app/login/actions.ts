@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
 import * as Yup from "yup";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Utility function to safely get form data as a string
 function getFormValue(formData: FormData, key: string): string | null {
@@ -57,6 +58,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+  const queryClient = useQueryClient();
   const supabase = createClient();
 
   // Use the utility to safely extract string values
@@ -84,6 +86,7 @@ export async function signup(formData: FormData) {
     return redirect("/error");
   }
 
+  queryClient.invalidateQueries({ queryKey: ["user-session"] });
   revalidatePath("/", "layout");
   redirect("/account");
 }
